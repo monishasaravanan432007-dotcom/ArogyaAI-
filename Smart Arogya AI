@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Arogya AI – Award-Winning Prototype</title>
+<style>
+/* ===== General Styles ===== */
+body, html {margin:0; padding:0; font-family: Arial,sans-serif; overflow-x:hidden; background:#f0f8ff;}
+h1,h2,h3,p,label {margin:0; padding:0;}
+button,input,select {outline:none; font-size:1em;}
+.container {width:95%; max-width:1200px; margin:auto; padding:15px; position:relative;}
+
+/* ===== Animated Gradient ===== */
+body {background: linear-gradient(-45deg, #2a9df4, #f5a623, #aef5f9, #f06292); background-size: 400% 400%; animation: gradientBG 15s ease infinite;}
+@keyframes gradientBG {0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;}}
+
+/* ===== Header ===== */
+header {text-align:center; padding:20px; background: rgba(0,0,0,0.4); color:#fff; border-radius:15px; margin-bottom:20px; animation: floatUp 2s ease infinite alternate;}
+@keyframes floatUp {0%{transform:translateY(0);} 100%{transform:translateY(-10px);}}
+
+/* ===== Buttons ===== */
+.btn {display:inline-block; padding:15px 25px; margin:10px 0; border-radius:12px; color:#fff; cursor:pointer; transition:0.3s; text-decoration:none;}
+.btn.red{background:#d9534f;} .btn.blue{background:#2a9df4;} .btn.green{background:#5cb85c;} .btn.orange{background:#f0ad4e;}
+.btn:hover{transform:scale(1.05);}
+
+/* ===== Section Containers ===== */
+section {padding:20px; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,0.2); background:rgba(255,255,255,0.95); margin-bottom:20px; animation: floatContainer 4s ease-in-out infinite alternate;}
+@keyframes floatContainer {0%{transform:translateY(0px);}50%{transform:translateY(-8px) translateX(3px);}100%{transform:translateY(0px);}}
+
+/* ===== Emergency ===== */
+#mapContainer iframe {border-radius:15px; width:100%; height:300px;}
+#ambulanceList div {margin-bottom:10px; padding:10px; background:#f9f9f9; border-radius:10px;}
+
+/* ===== Appointment Form ===== */
+input, select {width:95%; padding:10px; margin:8px 0; border-radius:8px; border:1px solid #ccc;}
+#appointmentForm {margin-top:15px; display:none;}
+
+/* ===== Calendar ===== */
+#calendar {padding:10px; background:#fff; border-radius:12px; box-shadow:0 0 10px #aaa; margin-top:10px;}
+
+/* ===== AI Guide ===== */
+#aiGuide {margin-top:10px; padding:10px; border:1px solid #ccc; border-radius:8px; background:#e6f7ff;}
+
+/* ===== Responsive ===== */
+@media screen and (max-width:768px){.container{width:95%; padding:10px;}}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+<h1>Smart Arogya AI / ஸ்மார்ட் ஆரோக்கிய ஏஐ</h1>
+<p>Welcome! Start your health journey / வரவேற்கிறோம்! உங்கள் ஆரோக்கிய பயணத்தைத் தொடங்குங்கள்</p>
+</header>
+
+<!-- ===== Toll-Free AI Input ===== -->
+<section id="tollFreeSection">
+<h2>Toll-Free AI Input / தொலைபேசி உதவி</h2>
+<button id="tollBtn" class="btn orange">🎤 Speak Your Details / உங்கள் விவரங்களை சொல்லவும்</button>
+<p id="aiGuide">AI Guide: தயவுசெய்து "Start Voice Input" கிளிக் செய்யவும்</p>
+</section>
+
+<!-- ===== Emergency Section ===== -->
+<section id="emergencySection">
+<h2>Emergency Services / அவசரம் சேவைகள்</h2>
+<p>Click to detect your location & find nearby hospitals / உங்கள் இருப்பிடம் கண்டறிந்து அருகிலுள்ள மருத்துவமனைகளை காண க்ளிக் செய்யவும்</p>
+<button id="emergencyBtn" class="btn red">🚨 Emergency / அவசரம்</button>
+<div id="mapContainer" style="display:none;"></div>
+<div id="ambulanceList" style="display:none;"></div>
+</section>
+
+<!-- ===== Book Appointment Section ===== -->
+<section id="appointmentContainer">
+<h2>Book Appointment / அப்பாயிண்மெண்ட் பதிவு செய்யவும்</h2>
+<p>Click here to open registration form / பதிவு படிவத்தை திறக்க க்ளிக் செய்யவும்</p>
+<button class="btn blue" id="openFormBtn">Open Registration Form / படிவம் திறக்கவும்</button>
+
+<div id="appointmentForm">
+<label>Name / பெயர்</label>
+<input type="text" id="formName" placeholder="Enter your name / பெயர்">
+
+<label>Age / வயது</label>
+<input type="number" id="formAge" placeholder="Enter age / வயது">
+
+<label>Gender / பாலினம்</label>
+<select id="formGender">
+<option value="">Select / தேர்வு செய்யவும்</option>
+<option value="male">Male / ஆண்</option>
+<option value="female">Female / பெண்</option>
+<option value="other">Other / மற்றவை</option>
+</select>
+
+<label>Phone / தொலைபேசி</label>
+<input type="text" id="formPhone" placeholder="Phone / தொலைபேசி">
+
+<label>Health Problem / பிரச்சனை</label>
+<select id="formProblem">
+<option value="">Select / தேர்வு செய்யவும்</option>
+<option value="fever">Fever / காய்ச்சல்</option>
+<option value="cold">Cold / காய்ச்சல், மூக்கு</option>
+<option value="cough">Cough / இருமல்</option>
+<option value="diabetes">Diabetes / நீரிழிவு</option>
+<option value="asthma">Asthma / மூச்சுத்திணறல்</option>
+</select>
+
+<button id="getOTPForm" class="btn green">Get OTP / OTP பெறவும்</button>
+<input type="text" id="otpFormInput" placeholder="Enter OTP / OTP உள்ளிடவும்">
+
+<button id="submitForm" class="btn blue">Book Appointment / பதிவு செய்யவும்</button>
+
+<div id="calendarContainer">
+<h3>Calendar / காலண்டர்</h3>
+<div id="calendar"></div>
+</div>
+</div>
+</section>
+</div>
+
+<script>
+// ===== AI Speak =====
+function aiSpeak(text){
+    const utter=new SpeechSynthesisUtterance(text);
+    utter.lang='ta-IN';
+    speechSynthesis.speak(utter);
+    document.getElementById('aiGuide').textContent = 'AI Guide: '+text;
+}
+
+// ===== Emergency Section =====
+const emergencyBtn=document.getElementById('emergencyBtn');
+emergencyBtn.addEventListener('click',()=>{
+    aiSpeak("உங்கள் இருப்பிடம் கண்டறிகிறது / Detecting location");
+    const mapContainer=document.getElementById('mapContainer');
+    const ambulanceList=document.getElementById('ambulanceList');
+    mapContainer.style.display='block';
+    ambulanceList.style.display='block';
+
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(pos=>{
+            const lat=pos.coords.latitude,lng=pos.coords.longitude;
+            mapContainer.innerHTML=`<iframe src="https://maps.google.com/maps?q=${lat},${lng}&output=embed"></iframe>`;
+            const ambulances=[
+                {name:'Relief Ambulance',distance:'3 km',driver:'Ramesh',phone:'9876543210'},
+                {name:'Erode Kongu Ambulance',distance:'5 km',driver:'Suresh',phone:'9876501234'},
+                {name:'SR Ambulance',distance:'6 km',driver:'Karthik',phone:'9876512345'}
+            ];
+            ambulanceList.innerHTML='';
+            ambulances.forEach(a=>{
+                const div=document.createElement('div');
+                div.innerHTML=`<strong>${a.name}</strong> (${a.distance})<br>Driver: ${a.driver}<br>Phone: <a href="tel:${a.phone}">${a.phone}</a>`;
+                ambulanceList.appendChild(div);
+            });
+            aiSpeak("அருகிலுள்ள ஆம்புலன்ஸ் பட்டியல் காட்டப்பட்டது / Nearby ambulances shown");
+        });
+    } else { aiSpeak("Geolocation ஆதரவு இல்லை / Geolocation not supported"); }
+});
+
+// ===== Appointment Form =====
+const openFormBtn=document.getElementById('openFormBtn');
+const appointmentForm=document.getElementById('appointmentForm');
+openFormBtn.addEventListener('click',()=>{
+    appointmentForm.style.display='block';
+    aiSpeak("பதிவு படிவம் திறக்கப்படுகிறது! / Registration form opening!");
+});
+
+let otpCode='';
+document.getElementById('getOTPForm').addEventListener('click',()=>{
+    otpCode=Math.floor(1000+Math.random()*9000);
+    alert(`Your OTP / உங்கள் OTP: ${otpCode}`);
+    aiSpeak("OTP வழங்கப்பட்டது / OTP Sent");
+});
+
+document.getElementById('submitForm').addEventListener('click',()=>{
+    const enteredOTP=document.getElementById('otpFormInput').value;
+    if(enteredOTP!=otpCode){alert("Invalid OTP / தவறான OTP"); aiSpeak("தவறான OTP / Invalid OTP"); return;}
+    const name=document.getElementById('formName').value;
+    const age=document.getElementById('formAge').value;
+    const gender=document.getElementById('formGender').value;
+    const phone=document.getElementById('formPhone').value;
+    const problem=document.getElementById('formProblem').value;
+
+    let appointments=JSON.parse(localStorage.getItem('appointments')||'[]');
+    appointments.push({name, age, gender, phone, problem});
+    localStorage.setItem('appointments',JSON.stringify(appointments));
+    aiSpeak(`${name}, உங்கள் அப்பாயிண்மெண்ட் பதிவு செய்யப்பட்டது / Appointment booked successfully`);
+    alert(`Appointment booked successfully: ${name}`);
+
+    // Reset form
+    appointmentForm.querySelectorAll('input').forEach(i=>i.value='');
+    appointmentForm.querySelectorAll('select').forEach(s=>s.value='');
+    document.getElementById('otpFormInput').value='';
+    updateCalendar();
+});
+
+// ===== Calendar =====
+function updateCalendar(){
+    const calendar=document.getElementById('calendar');
+    const appointments=JSON.parse(localStorage.getItem('appointments')||'[]');
+    calendar.innerHTML='';
+    appointments.forEach(a=>{
+        const div=document.createElement('div');
+        div.textContent=`${a.name} - ${a.age}yrs - ${a.gender} - ${a.problem} - ${a.phone}`;
+        calendar.appendChild(div);
+    });
+}
+updateCalendar();
+
+// ===== Voice Recognition & Auto-Fill =====
+const tollBtn=document.getElementById('tollBtn');
+let recognition;
+if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognition = new SpeechRecognition();
+    recognition.lang='ta-IN';
+    recognition.interimResults=false;
+    recognition.maxAlternatives=1;
+} else {alert("Browser does not support Speech Recognition");}
+
+tollBtn.addEventListener('click',()=>{
+    aiSpeak("உங்கள் பெயரை சொல்லுங்கள் / Please say your name");
+    recognition.start();
+});
+
+recognition.onresult=(event)=>{
+    const transcript=event.results[0][0].transcript.trim();
+    const nameInput=document.getElementById('formName');
+    const ageInput=document.getElementById('formAge');
+    const genderSelect=document.getElementById('formGender');
+    const phoneInput=document.getElementById('formPhone');
+    const problemSelect=document.getElementById('formProblem');
+
+    if(!nameInput.value){nameInput.value=transcript; aiSpeak(`${transcript}, உங்கள் பெயர் பதிவு செய்யப்பட்டது / Name recorded`); aiSpeak("உங்கள் வயதை சொல்லுங்கள் / Say your age"); recognition.start(); return;}
+    if(!ageInput.value){const age=transcript.match(/\d+/); if(age){ageInput.value=age[0]; aiSpeak(`${age[0]}, உங்கள் வயது பதிவு செய்யப்பட்டது / Age recorded`);} else{aiSpeak("தயவுசெய்து எண்ணை சொல்லுங்கள் / Please say a number"); recognition.start(); return;} aiSpeak("பாலினம் ஆண், பெண், அல்லது மற்றவை என்று சொல்லுங்கள் / Say Male, Female, or Other"); recognition.start(); return;}
+    if(!genderSelect.value){let gender=transcript.toLowerCase(); if(gender.includes('ஆண்') || gender.includes('male')) genderSelect.value='male'; else if(gender.includes('பெண்') || gender.includes('female')) genderSelect.value='female'; else genderSelect.value='other'; aiSpeak(`பாலினம் ${genderSelect.options[genderSelect.selectedIndex].text} பதிவு செய்யப்பட்டது / Gender recorded`); aiSpeak("தொலைபேசி எண் சொல்லுங்கள் / Say your phone number"); recognition.start(); return;}
+    if(!phoneInput.value){const phone=transcript.replace(/\D/g,''); phoneInput.value=phone; aiSpeak(`Phone ${phone} பதிவு செய்யப்பட்டது / Phone recorded`); aiSpeak("உங்கள் பிரச்சனை சொல்லுங்கள் / Say your health problem"); recognition.start(); return;}
+    if(!problemSelect.value){let prob=transcript.toLowerCase(); for(let opt of problemSelect.options){if(opt.text.toLowerCase().includes(prob)){problemSelect.value=opt.value; break;}} aiSpeak(`பிரச்சனை ${problemSelect.options[problemSelect.selectedIndex].text} பதிவு செய்யப்பட்டது / Problem recorded`); aiSpeak("முழுமையாக பதிவு செய்யப்பட்டது! / Form completely recorded!"); return;}
+};
+
+recognition.onerror=(e)=>{console.log("Speech Error:",e.error); aiSpeak("பேச்சு புரியவில்லை. தயவுசெய்து மீண்டும் சொல்லுங்கள் / Could not understand, please repeat"); recognition.start();}
+</script>
+</body>
+</html>
